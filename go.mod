@@ -1,3 +1,3 @@
-module github.com/moby/locker
+module github.com/ngicks/locker
 
-go 1.13
+go 1.19

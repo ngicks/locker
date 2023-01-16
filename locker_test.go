@@ -23,7 +23,7 @@ func TestLockCounter(t *testing.T) {
 }
 
 func TestLockerLock(t *testing.T) {
-	l := New()
+	l := New[string]()
 	l.Lock("test")
 	ctr := l.locks["test"]
 
@@ -75,7 +75,7 @@ func TestLockerLock(t *testing.T) {
 }
 
 func TestLockerUnlock(t *testing.T) {
-	l := New()
+	l := New[string]()
 
 	l.Lock("test")
 	l.Unlock("test")
@@ -94,7 +94,7 @@ func TestLockerUnlock(t *testing.T) {
 }
 
 func TestLockerConcurrency(t *testing.T) {
-	l := New()
+	l := New[string]()
 
 	var wg sync.WaitGroup
 	for i := 0; i <= 10000; i++ {
@@ -126,7 +126,7 @@ func TestLockerConcurrency(t *testing.T) {
 }
 
 func BenchmarkLocker(b *testing.B) {
-	l := New()
+	l := New[string]()
 	for i := 0; i < b.N; i++ {
 		l.Lock("test")
 		l.Unlock("test")
@@ -134,7 +134,7 @@ func BenchmarkLocker(b *testing.B) {
 }
 
 func BenchmarkLockerParallel(b *testing.B) {
-	l := New()
+	l := New[string]()
 	b.SetParallelism(128)
 	b.RunParallel(func(pb *testing.PB) {
 		for pb.Next() {
@@ -145,7 +145,7 @@ func BenchmarkLockerParallel(b *testing.B) {
 }
 
 func BenchmarkLockerMoreKeys(b *testing.B) {
-	l := New()
+	l := New[string]()
 	var keys []string
 	for i := 0; i < 64; i++ {
 		keys = append(keys, strconv.Itoa(i))

@@ -1,5 +1,4 @@
-Locker
-=====
+# Locker
 
 locker provides a mechanism for creating finer-grained locking to help
 free up more global locks to handle other tasks.
@@ -13,6 +12,9 @@ created.
 Lock references are automatically cleaned up on `Unlock` if nothing else is
 waiting for the lock.
 
+## Added type parameter
+
+Name is now type-param K, any type but comparable.
 
 ## Usage
 
@@ -23,11 +25,11 @@ import (
 	"sync"
 	"time"
 
-	"github.com/moby/locker"
+	"github.com/ngicks/locker"
 )
 
 type important struct {
-	locks *locker.Locker
+	locks *locker.Locker[K]
 	data  map[string]interface{}
 	mu    sync.Mutex
 }
@@ -62,4 +64,3 @@ When needing to modify the underlying data, use the global lock to ensure nothin
 else is modifying it at the same time.
 Since name lock is already in place, no reads will occur while the modification
 is being performed.
-
